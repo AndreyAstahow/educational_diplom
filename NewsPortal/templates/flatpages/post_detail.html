@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %} 
+
+{% block title %}
+news
+{% endblock title %}
+ 
+{% block content %}
+<h1>{{ post_detail.headline }}</h1>
+<h6>Запись была опубликована: {{ post_detail.time_create }}</h6>
+<hr>
+<h2>{{ post_detail.text }}</h2>
+<hr>
+
+
+{% endblock content %}

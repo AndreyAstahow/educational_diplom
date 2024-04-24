@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+response
+{% endblock title %}
+
+{% block content %}
+    <h3>Отклики на объявления пользователя {{request.user.username}}:</h3>
+
+    {% if response %}
+        <table>
+            <tr>
+                <td>Пост</td>
+                <td>Дата создания поста</td>
+                <td>Кто откликнулся</td>
+            </tr>
+          
+            {% for resp in response %}
+                {% if request.user.id == resp.author.id %}
+                    <tr>
+                        <td><a href="{% url 'post_detail' resp.id %}">{{ resp.headline }}</a></td>
+                        <td>{{ resp.time_create }}</td>
+                        <td>{{ resp.category }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+        </table>
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+{% endblock content %}

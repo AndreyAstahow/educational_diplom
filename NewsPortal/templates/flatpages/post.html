@@ -1,0 +1,54 @@
+{% extends 'flatpages/default.html' %} 
+
+{% block title %}
+Posts
+{% endblock title %}
+ 
+{% block content %}
+    <h1>Все новости</h1>
+    <h3>{{ time_now|date:'M d Y' }}</h3>
+    <h3>Всего новостей: {{ post|length }}</h3>
+
+   
+    <hr>
+    {% if post %}
+        <table>
+            <tr>
+                <td>Заголовок</td>
+                <td>Категория</td>
+                <td>Дата публикации</td>
+                <td style="width: 800px;">Превью</td>
+                <td>Отклик</td>
+            </tr>
+          
+            {% for post in post %}
+            <tr>
+                <td><a href="{% url 'post_detail' post.id %}">{{ post.headline }}</a></td>
+                <td>{{ post.category }}</td>
+                <td>{{ post.time_create }}</td>
+                <td>{{ post.text|truncatewords:30 }}</td>
+                <td>{% if request.user == post.author %}
+                        Это ваше объявление
+                    {% elif request.user in post.response.all %}
+                        Вы откликнулись
+                    {% else %}
+                        <a href="{% url 'response' post.id %}">Откликнуться</a>
+                    {% endif %}
+                </td>
+                <!-- <td>{% if request.user in post.response.all %}
+                        Вы откликнулись
+                    {% else %}
+                        <a href="{% url 'response' post.id %}">Откликнуться</a>
+                    {% endif %}
+                </td> -->
+            </tr>
+            {% endfor %}
+
+        </table>
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+
+    
+
+{% endblock content %}
